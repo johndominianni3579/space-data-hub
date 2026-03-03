@@ -8,7 +8,7 @@ An interactive, data-driven dashboard tracking the future of human spaceflight. 
 * **Artemis Mission Log:** A hybrid module merging live NASA Image Library data with a manual 2026 mission status tracker.
 * **NeoWs Asteroid Feed:** Real-time monitoring of nearby asteroids, including hazardous status and miss distance in kilometers.
 * **Physics Utilities:** Integrated calculators for Artificial Gravity (RPM) and Mars Voyage durations based on user-defined speeds.
-* **JSON:** Uses JSON to retrieve data from the API's
+* **JSON:** Uses JSON: Uses persistence to store data from NASA and SpaceX's Public API; 
 
 ### Stack
 * **Language:** Python 3.1
