@@ -1,3 +1,5 @@
+import os
+
 # apod.py
 
 """Fetches NASA's Astronomy Picture of the Day."""
