@@ -3,7 +3,7 @@ import os
 # apod.py
 
 """Fetches NASA's Astronomy Picture of the Day."""
-
+# hello
 import requests
 
 def get_apod():
@@ -18,4 +18,4 @@ def get_apod():
             "media_type": data.get("media_type")
         }
     except:
-        return {"error": "APOD unavailable"}
+        return {"error": "APOD unavailable"} 
