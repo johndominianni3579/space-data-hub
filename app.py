@@ -72,7 +72,7 @@ with col_launch:
     st.header("SpaceX's Next Launch")
     launch = get_next_launch()
     if "error" not in launch:
-        st.metric("Mission Name", launch['name'], help=launch['name'])
+        st.subheader(f"🚀 Mission: {launch['name']}")
         st.write(f"**NET Date:** {launch['date']}")
         st.write(f"*Details:* {launch['details']}")
     else:
