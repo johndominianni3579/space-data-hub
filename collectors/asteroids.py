@@ -11,7 +11,8 @@ from datetime import datetime
 
 def get_nearby_asteroids():
     today = datetime.now().strftime('%Y-%m-%d')
-    url = f"https://api.nasa.gov/neo/rest/v1/feed?start_date={today}&api_key=MQqhXmbciRwp3UH6s1aYTPQisHSAZOS0ef1zOW7n"
+    api_key = os.getenv("NASA_API_KEY", "DEMO_KEY")
+    url = f"https://api.nasa.gov/neo/rest/v1/feed?start_date={today}&api_key={api_key}"
     
     try:
         response = requests.get(url)

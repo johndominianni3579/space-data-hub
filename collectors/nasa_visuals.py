@@ -5,7 +5,8 @@
 import requests
 
 def get_apod():
-    url = "https://api.nasa.gov/planetary/apod?api_key=MQqhXmbciRwp3UH6s1aYTPQisHSAZOS0ef1zOW7n"
+    api_key = os.getenv("NASA_API_KEY", "DEMO_KEY")
+    url = f"https://api.nasa.gov/planetary/apod?api_key={api_key}"
     try:
         data = requests.get(url).json()
         return {
