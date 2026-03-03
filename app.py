@@ -40,7 +40,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-st.title("🛰️ The 2026 Space Exploration Hub 🛰️ ")
+st.title("The 2026 Space Exploration Hub")
 st.caption(f"Real-time Data Sync: {datetime.now().strftime('%B %d, %Y')}")
 
 # --- SIDEBAR: MISSION ENGINEERING TOOLS ---
@@ -63,7 +63,7 @@ with st.sidebar:
     st.caption(f"Approx. {trip['months']} Months at {trip['speed']}")
 
 # --- SECTION 1: NASA APOD  ---
-st.header("🌠 Astronomy Picture of the Day")
+st.header("Astronomy Picture of the Day")
 apod = get_apod()
 
 if "error" not in apod:
@@ -91,7 +91,7 @@ with col_launch:
     st.header("SpaceX's Next Launch")
     launch = get_next_launch()
     if "error" not in launch:
-        st.subheader(f"🚀 Mission: {launch['name']}")
+        st.subheader(f"Mission: {launch['name']}")
         st.write(f"**NET Date:** {launch['date']}")
         st.write(f"*Details:* {launch['details']}")
     else:
