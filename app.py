@@ -45,7 +45,7 @@ st.caption(f"Real-time Data Sync: {datetime.now().strftime('%B %d, %Y')}")
 
 # --- SIDEBAR: MISSION ENGINEERING TOOLS ---
 with st.sidebar:
-    st.header("🛠️ Mission Engineering")
+    st.header("Mission Engineering")
     
     # Tool 1: Artificial Gravity
     st.subheader("Gravity Designer")
