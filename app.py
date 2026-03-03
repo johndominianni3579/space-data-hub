@@ -40,7 +40,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-st.title("🛰️ 2026 Global Space Exploration Hub")
+st.title("🛰️ The 2026 Space Exploration Hub 🛰️ ")
 st.caption(f"Real-time Data Sync: {datetime.now().strftime('%B %d, %Y')}")
 
 # --- SIDEBAR: MISSION ENGINEERING TOOLS ---
