@@ -1,3 +1,12 @@
+# main.py 
+
+"""
+This file serves as the main entry point for my 2026 Space Hub application.
+It prints out a welcome message and displays information about ongoing space projects from various APIs.
+It gathers all of the information for the dashboard from the collectors and utilities modules.
+"""
+
+# import all necessary files (collectors and utilities)
 from collectors.spacex_api import get_next_launch
 from collectors.nasa_artemis_api import get_artemis_updates
 from collectors.rocket_specs import get_spacex_fleet

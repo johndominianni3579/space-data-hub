@@ -1,3 +1,5 @@
+# nasa_artemis_api.py
+
 import requests
 import os
 from dotenv import load_dotenv
@@ -21,7 +23,7 @@ def get_artemis_updates():
     }
 
     try:
-        # 2. Get images from the API
+        # 2. Retrieves images from the API
         response = requests.get("https://images-api.nasa.gov/search?q=Artemis&media_type=image")
         response.raise_for_status()
         data = response.json()
@@ -29,9 +31,9 @@ def get_artemis_updates():
 
         final_missions = []
         
-        # 3. Merge the manual log with the API results
+        # 3. Merges the manual log with the API results
         for i, (name, status) in enumerate(manual_log.items()):
-            # Try to find a specific image from the API results, or use a default
+            # Tries to find a specific image from the API results, or use a default
             img_url = items[i]["links"][0]["href"] if i < len(items) else "No image found"
             
             final_missions.append({

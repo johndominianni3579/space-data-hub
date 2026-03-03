@@ -1,7 +1,10 @@
+# apod.py
+
+"""Fetches NASA's Astronomy Picture of the Day."""
+
 import requests
 
 def get_apod():
-    """Fetches NASA's Astronomy Picture of the Day."""
     url = "https://api.nasa.gov/planetary/apod?api_key=MQqhXmbciRwp3UH6s1aYTPQisHSAZOS0ef1zOW7n"
     try:
         data = requests.get(url).json()

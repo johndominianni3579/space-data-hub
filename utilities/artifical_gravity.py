@@ -1,3 +1,10 @@
+# artificial_gravity.py
+
+"""
+This module is a simple calculator that uses the math library to calculate the RPM needed for 1G (Earth Gravity) at a given radius. 
+It can be used without an API call.
+"""
+
 import math
 
 def calculate_gravity(radius_meters):

@@ -1,12 +1,15 @@
+# asteroids.py
+
+"""
+    Retrieves a list of nearby asteroids from NASA's NeoWs API.
+    Includes a fallback mechanism to ensure data is returned even if 
+    today's specific records haven't been posted yet.
+"""
+
 import requests
 from datetime import datetime
 
 def get_nearby_asteroids():
-    """
-    Retrieves a list of nearby asteroids from NASA's NeoWs API.
-    Includes a fallback mechanism to ensure data is returned even if 
-    today's specific records haven't been posted yet.
-    """
     today = datetime.now().strftime('%Y-%m-%d')
     url = f"https://api.nasa.gov/neo/rest/v1/feed?start_date={today}&api_key=MQqhXmbciRwp3UH6s1aYTPQisHSAZOS0ef1zOW7n"
     

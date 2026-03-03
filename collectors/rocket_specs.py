@@ -1,12 +1,15 @@
-import requests
-
-def get_spacex_fleet():
-    """
+# rocket_specs.py
+ 
+"""
     Retrieves the specifications of the SpaceX fleet including the active status, number of stages, height, mass, thrust, and roadmaps for Starship.
     
     Returns a list of dictionaries containing the rocket specifications.
     If an error occurs, returns a dictionary containing a single key-value pair with the key 'error' and a value describing the error.
-    """
+"""
+
+import requests
+
+def get_spacex_fleet():
     url = "https://api.spacexdata.com/v4/rockets"
     try:
         response = requests.get(url)

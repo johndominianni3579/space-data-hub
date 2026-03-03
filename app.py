@@ -1,8 +1,27 @@
+# app.py
+
+"""
+This module serves as the main entry point for the 2026 Space Hub application.
+
+It sets up the Streamlit page configuration and imports various collectors and utilities from different modules.
+The collectors retrieve data from multiple external API's, including SpaceX, NASA, and NeoWs.
+The utilities provide additional functionality such as calculating artificial gravity and determining the travel time to Mars.
+
+The application displays information about ongoing space projects, including:
+- NASA's Astronomy Picture of the Day
+- The next SpaceX mission and its launch date
+- The upcoming Artemis missions and their status/goals
+- The specifications of the SpaceX fleet including the active status, number of stages, height, mass, thrust, and roadmaps for Starship
+- Nearby asteroids and their hazardous status, velocity, and miss distance
+- Artificial gravity and Mars trip duration
+
+"""
+
+# import all necesary libraries and files 
+
 import streamlit as st
 import os
 from datetime import datetime
-
-# Import your collectors
 from collectors.spacex_api import get_next_launch
 from collectors.nasa_artemis_api import get_artemis_updates
 from collectors.rocket_specs import get_spacex_fleet
@@ -51,7 +70,7 @@ if "error" not in apod:
     col_visual, col_txt = st.columns([2, 1])
     
     with col_visual:
-        # Check if the media is a video or image
+        # checks if the media is a video or image
         if apod.get("media_type") == "video":
             st.video(apod['url'])
         else:
@@ -95,11 +114,11 @@ st.markdown("---")
 # --- SECTION 3: ARTEMIS & FLEET ---
 st.header("The NASA Artemis Human Exploration Program's Upcoming Missions")
 artemis = get_artemis_updates()
-art_cols = st.columns(len(artemis)) # Dynamically create columns based on count
+art_cols = st.columns(len(artemis))
 
 for i, mission in enumerate(artemis):
     with art_cols[i]:
-        # Check if the mission is Artemis 4 to use your local file
+        # Checks if the mission is Artemis 4 to use your local file as the official logo has not been released by NASA
         if mission.get('name') == "Artemis IV":
             image_to_show = os.path.join("assets", "artemis_4_placeholder.jpeg")
             caption_text = f"{mission['name']} (Placeholder Image)"
@@ -129,5 +148,5 @@ if isinstance(fleet, list):
                     st.write("---")
                     st.write("**2026-2027 Starship Roadmap:**")
                     for date, event in rocket["roadmap"].items():
-                        st.write(f"✅ **{date}**: {event}")
+                        st.write(f" **{date}**: {event}")
             st.write("---")
