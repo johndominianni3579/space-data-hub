@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "_comment": "Switching back to Streamlit; keeping this file for reference only.",
   "builds": [
     {
       "src": "app.py",
