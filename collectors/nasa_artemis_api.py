@@ -52,12 +52,20 @@ def get_artemis_updates():
         response.raise_for_status()
         items = response.json()["collection"]["items"]
 
-        for i, mission in enumerate(missions):
-            # Uses a placeholder for Artemis V (index 4) or if API fails
-            if i == 4 or i >= len(items):
-                mission["image"] = "assets/artemis_placeholder.jpeg"
+        artemis_ii_img = items[1]["links"][0]["href"] if len(items) > 1 else "PLACEHOLDER"
+
+        for i, m in enumerate(missions):
+            if i == 2: 
+                m["image"] = items[i]["links"][0]["href"] if i < len(items) else "PLACEHOLDER"
+            
+            elif i == 3: 
+                m["image"] = artemis_ii_img
+            
+            elif i == 4: 
+                m["image"] = "PLACEHOLDER"
+            
             else:
-                mission["image"] = items[i]["links"][0]["href"]
+                m["image"] = items[i]["links"][0]["href"] if i < len(items) else "PLACEHOLDER"
 
         return missions
 
