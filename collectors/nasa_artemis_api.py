@@ -8,13 +8,12 @@ load_dotenv()
 API_KEY = os.getenv("NASA_API_KEY", "DEMO_KEY") 
 
 def get_artemis_updates():
-    # 1. Manual Log: Keeping your detailed 2026 descriptions
     missions = [
-        {"name": "Artemis I", "status": "COMPLETED (Dec 2022)", "goal": "Uncrewed flight test..."},
-        {"name": "Artemis II", "status": "IN PROGRESS (Launched April 1, 2026)", "goal": "First crewed mission..."},
-        {"name": "Artemis III", "status": "Scheduled for 2027", "goal": "LEO Rehearsal..."},
-        {"name": "Artemis IV", "status": "Targeting early 2028", "goal": "Human Lunar Landing..."},
-        {"name": "Artemis V", "status": "Targeting late 2028", "goal": "Sustainability phase..."}
+        {"name": "Artemis I", "status": "COMPLETED (Dec 2022)", "goal": "Uncrewed flight test of SLS and Orion. Spent 25 days in space and traveled 1.3 million miles."},
+        {"name": "Artemis II", "status": "IN PROGRESS (Launched April 1, 2026)", "goal": "First crewed mission! Four astronauts are performing a 10-day lunar flyby."},
+        {"name": "Artemis III", "status": "Scheduled for 2027", "goal": "LEO rehearsal testing docking between Orion and SpaceX Starship HLS."},
+        {"name": "Artemis IV", "status": "Targeting 2028", "goal": "Official human return to the lunar surface! First landing since 1972."},
+        {"name": "Artemis V", "status": "Future Mission", "goal": "Sustainability phase. Deployment of the Lunar Gateway."}
     ]
 
     try:
@@ -22,33 +21,36 @@ def get_artemis_updates():
         response.raise_for_status()
         items = response.json()["collection"]["items"]
 
-        # --- THE SPECIFIC MAPPING OVERRIDES ---
-        
-        # 1. Store the Astronaut Image (Index 3 in your current API results)
-        astronaut_img = items[3]["links"][0]["href"] if len(items) > 3 else "PLACEHOLDER"
-        
-        # 2. Store the Artemis Logo (Index 1 in your current API results)
-        logo_img = items[1]["links"][0]["href"] if len(items) > 1 else "PLACEHOLDER"
+        # 1. HELPER: Find the best image by searching for a keyword in the NASA title/description
+        def find_img(keyword):
+            for item in items:
+                description = str(item.get("data", [{}])[0].get("description", "")).lower()
+                title = str(item.get("data", [{}])[0].get("title", "")).lower()
+                if keyword in description or keyword in title:
+                    return item["links"][0]["href"]
+            return "PLACEHOLDER"
+
+        # 2. MANUALLY ASSIGN THE IMAGES
+        # Find the astronaut/crew image for Artemis II
+        crew_img = find_img("crew") 
+        if crew_img == "PLACEHOLDER": crew_img = find_img("astronaut") # Fallback search
+
+        # Find the logo/graphic for Artemis IV
+        logo_img = find_img("logo")
+        if logo_img == "PLACEHOLDER": logo_img = items[1]["links"][0]["href"] # Fallback to index 1
 
         for i, m in enumerate(missions):
             if m["name"] == "Artemis II":
-                # SETTING THE ASTRONAUT IMAGE HERE
-                m["image"] = astronaut_img
-            
-            elif m["name"] == "Artemis III":
-                # FILLING THE BLANK: Pulling from API Index 2
-                m["image"] = items[2]["links"][0]["href"] if len(items) > 2 else "PLACEHOLDER"
-                
+                m["image"] = crew_img
             elif m["name"] == "Artemis IV":
-                # SETTING THE LOGO IMAGE HERE
                 m["image"] = logo_img
-                
+            elif m["name"] == "Artemis III":
+                # Fills the blank: Pulls whatever is at index 2 (usually a rocket or assembly shot)
+                m["image"] = items[2]["links"][0]["href"] if len(items) > 2 else "PLACEHOLDER"
             elif m["name"] == "Artemis V":
-                # KEEPING THE PLACEHOLDER
                 m["image"] = "PLACEHOLDER"
-                
             else:
-                # DEFAULT: Artemis I stays at Index 0
+                # Default for Artemis I
                 m["image"] = items[i]["links"][0]["href"] if i < len(items) else "PLACEHOLDER"
 
         return missions
