@@ -21,6 +21,10 @@ The application displays information about ongoing space projects, including:
 
 import streamlit as st
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from datetime import datetime
 from collectors.spacex_api import get_next_launch
 from collectors.nasa_artemis_api import get_artemis_updates
@@ -62,25 +66,20 @@ with st.sidebar:
     st.success(f"Travel Time: **{trip['days']} Days**")
     st.caption(f"Approx. {trip['months']} Months at {trip['speed']}")
 
-# --- SECTION 1: NASA APOD  ---
+# --- SECTION 1: Astronomy Picture of the Day ---
 st.header("Astronomy Picture of the Day")
 apod = get_apod()
 
-if "error" not in apod:
-    col_visual, col_txt = st.columns([2, 1])
+if isinstance(apod, dict) and apod.get('url'):
+    st.image(apod['url'], use_container_width=True)
+    st.subheader(apod.get('title', 'NASA APOD'))
     
-    with col_visual:
-        # checks if the media is a video or image
-        if apod.get("media_type") == "video":
-            st.video(apod['url'])
-        else:
-            st.image(apod['url'], use_container_width=True)
-            
-    with col_txt:
-        st.subheader(apod['title'])
-        st.write(apod['explanation'])
+    # The explanation is now displayed directly without a dropdown
+    st.write(apod.get('explanation', ''))
 else:
-    st.error("NASA Visuals API currently limited or unavailable.")
+    st.warning("NASA APOD is currently unavailable. Check your .env file.")
+
+st.divider() # Keeps things clean before the Artemis section
 
 st.markdown("---")
 
@@ -112,24 +111,22 @@ with col_asteroids:
 st.markdown("---")
 
 # --- SECTION 3: ARTEMIS ---
-st.header("The NASA Artemis Program's Upcoming Missions")
+st.header("The NASA Artemis Program")
 artemis = get_artemis_updates()
-
-# Automatically creates 5 columns now that we have 5 missions
 art_cols = st.columns(len(artemis))
 
 for i, mission in enumerate(artemis):
     with art_cols[i]:
-        # If the backend sent "PLACEHOLDER", use your local assets file
-        if mission.get("image") == "PLACEHOLDER":
-            image_to_show = os.path.join("assets", "artemis_placeholder.jpeg")
+        # Path to your local assets folder
+        img_path = os.path.join("assets", mission["image"])
+        
+        if os.path.exists(img_path):
+            st.image(img_path, use_container_width=True)
         else:
-            image_to_show = mission["image"]
-
-        st.image(image_to_show, use_container_width=True)
+            st.error(f"Missing: {mission['image']}")
+            
         st.subheader(mission['name'])
         st.write(f"**Status:** {mission['status']}")
-        # Added caption to show your new detailed goals
         st.caption(mission['goal'])
 
 st.markdown("---")
