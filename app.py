@@ -111,23 +111,23 @@ with col_asteroids:
 
 st.markdown("---")
 
-# --- SECTION 3: ARTEMIS & FLEET ---
-st.header("The NASA Artemis Human Exploration Program's Upcoming Missions")
+# --- SECTION 3: ARTEMIS ---
+st.header("The NASA Artemis Program")
 artemis = get_artemis_updates()
+
 art_cols = st.columns(len(artemis))
 
 for i, mission in enumerate(artemis):
     with art_cols[i]:
-        # Checks if the mission is Artemis 4 to use your local file as the official logo has not been released by NASA
-        if mission.get('name') == "Artemis IV":
-            image_to_show = os.path.join("assets", "artemis_4_placeholder.jpeg")
-            caption_text = f"{mission['name']} (Placeholder Image)"
+        if mission.get("image") == "PLACEHOLDER":
+            image_to_show = os.path.join("assets", "artemis_placeholder.jpeg")
         else:
-            image_to_show = mission['image']
-            caption_text = mission['name']
+            image_to_show = mission["image"]
 
-        st.image(image_to_show, caption=caption_text, use_container_width=True)
+        st.image(image_to_show, use_container_width=True)
+        st.subheader(mission['name'])
         st.write(f"**Status:** {mission['status']}")
+        st.caption(mission['goal'])
 
 st.markdown("---")
 
