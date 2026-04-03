@@ -112,13 +112,15 @@ with col_asteroids:
 st.markdown("---")
 
 # --- SECTION 3: ARTEMIS ---
-st.header("The NASA Artemis Program")
+st.header("The NASA Artemis Program's Upcoming Missions")
 artemis = get_artemis_updates()
 
+# Automatically creates 5 columns now that we have 5 missions
 art_cols = st.columns(len(artemis))
 
 for i, mission in enumerate(artemis):
     with art_cols[i]:
+        # If the backend sent "PLACEHOLDER", use your local assets file
         if mission.get("image") == "PLACEHOLDER":
             image_to_show = os.path.join("assets", "artemis_placeholder.jpeg")
         else:
@@ -127,6 +129,7 @@ for i, mission in enumerate(artemis):
         st.image(image_to_show, use_container_width=True)
         st.subheader(mission['name'])
         st.write(f"**Status:** {mission['status']}")
+        # Added caption to show your new detailed goals
         st.caption(mission['goal'])
 
 st.markdown("---")
